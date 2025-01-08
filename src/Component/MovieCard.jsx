@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate to programmatically navigate
+import { useNavigate } from "react-router-dom"; 
 
 const MovieCard = ({ movie }) => {
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate(); 
 
   const handleClick = () => {
-    navigate(`/movie/${movie.id}`); // Navigate to the movie detail page with the movie's ID
+    navigate(`/movie/${movie.id}`); 
   };
 
   const imagePath = "https://image.tmdb.org/t/p/w500";

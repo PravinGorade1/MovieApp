@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import Popular from "../Pages/Popular";
 import UpcomingMovies from "../Pages/UpcomingMovies";
-import TopRatedMovies from "../Pages/TopRatedMovies";  // Make sure TopRatedMovies is imported
+import TopRatedMovies from "../Pages/TopRatedMovies";
 import Home from "../Pages/Home";
 import MovieDetail from "./MovieDetail";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
+  const [input, setInput] = useState("");
+
+  function handleInput(e) {
+    setInput(e.target.value);
+  }
+
   return (
     <BrowserRouter>
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
@@ -25,7 +32,6 @@ export default function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-          
               <li className="nav-item">
                 <NavLink className="nav-link" to="/popular">Popular</NavLink>
               </li>
@@ -42,22 +48,26 @@ export default function Navbar() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={input}
+                onChange={handleInput}
               />
-              <button className="btn btn-outline-success" type="submit">
+              <NavLink
+                className="btn btn-outline-success"
+                to={`/search?query=${encodeURIComponent(input)}`}
+              >
                 Search
-              </button>
+              </NavLink>
             </form>
           </div>
         </div>
       </nav>
-
-
       <Routes>
-        <Route path="/popular" element={<Popular/>} />
-        <Route path="/top-rated" element={<TopRatedMovies/>} />
-        <Route path="/upcoming" element={<UpcomingMovies/>} />
-        <Route path="/movie/:id" element={<MovieDetail/>} />
-        <Route path="/Home" element={<Home/>} />
+        <Route path="/popular" element={<Popular />} />
+        <Route path="/top-rated" element={<TopRatedMovies />} />
+        <Route path="/upcoming" element={<UpcomingMovies />} />
+        <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route path="/Home" element={<Home />} />
+        <Route path="/search" element={<SearchBar/>} />
       </Routes>
     </BrowserRouter>
   );
