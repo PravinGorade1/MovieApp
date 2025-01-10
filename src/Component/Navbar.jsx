@@ -62,6 +62,7 @@ export default function Navbar() {
         </div>
       </nav>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/top-rated" element={<TopRatedMovies />} />
         <Route path="/upcoming" element={<UpcomingMovies />} />

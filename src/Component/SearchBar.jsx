@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import MovieCard from "./MovieCard";
 
 export default function SearchBar() {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+   const [searchParams] = useSearchParams();
+   const query = searchParams.get("query");
+   const [movies, setMovies] = useState([]);
+   const [loading, setLoading] = useState(false);
+   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (query) {
@@ -48,18 +49,7 @@ export default function SearchBar() {
         <div className="movie-list">
           {movies.length > 0 ? (
             movies.map((movie) => (
-              <div key={movie.id} className="movie-card">
-                {movie.poster_path && (
-                  <img
-                    src={`${baseImageUrl}${movie.poster_path}`}
-                    alt={movie.title}
-                    className="movie-poster"
-                  />
-                )}
-                <h5>{movie.title}</h5>
-                <p><strong>Release Date:</strong> {movie.release_date}</p>
-               
-              </div>
+              <MovieCard key={movie.id} movie={movie} />
             ))
           ) : (
             <p>No results found. Try another keyword.</p>
