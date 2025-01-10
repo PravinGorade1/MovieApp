@@ -7,27 +7,46 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-  
-    fetchMovies("popular", currentPage)
-      .then((data) => {
+    const loadMovies = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchMovies("popular", currentPage);
         setMovies(data.results);
         setTotalPages(data.total_pages);
-        setError(null);
-      })
+      } catch (err) {
+        setError("Failed to fetch movies. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMovies();
   }, [currentPage]);
 
   return (
     <div>
       <h1 className="text-muted">All Movies</h1>
-      <MovieList movies={movies}/>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p className="text-danger">{error}</p>
+      ) : movies.length > 0 ? (
+        <>
+          <MovieList movies={movies} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      ) : (
+        <p>No movies found.</p>
+      )}
     </div>
   );
 };
